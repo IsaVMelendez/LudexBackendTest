@@ -16,6 +16,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type CompleteTodoInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type CreateSomethingInput = {
   name: Scalars['String']['input'];
 };
@@ -26,8 +30,14 @@ export type CreateTodoInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  completeTodo: Todo;
   createSomething: Something;
   createTodo: Todo;
+};
+
+
+export type MutationCompleteTodoArgs = {
+  input: CompleteTodoInput;
 };
 
 
@@ -132,6 +142,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CompleteTodoInput: CompleteTodoInput;
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
@@ -145,6 +156,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  CompleteTodoInput: CompleteTodoInput;
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
   ID: Scalars['ID']['output'];
@@ -156,6 +168,7 @@ export type ResolversParentTypes = {
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  completeTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCompleteTodoArgs, 'input'>>;
   createSomething?: Resolver<ResolversTypes['Something'], ParentType, ContextType, RequireFields<MutationCreateSomethingArgs, 'input'>>;
   createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'input'>>;
 };
