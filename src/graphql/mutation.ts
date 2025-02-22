@@ -14,4 +14,23 @@ export const Mutation: IMutation<Context> = {
       name: something.name,
     };
   },
+
+  // This method creates a todo with the input entity from Schema.prisma
+  createTodo: async (_, { input }, { prisma }) => {
+    const todo = await prisma.todo.create({
+      data: {
+        title: input.title,
+        completed: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    });
+
+    //Must convert back to string when we return
+    return {
+      ...todo,
+      createdAt: todo.createdAt.toISOString(),
+      updatedAt: todo.updatedAt.toISOString(),
+    };
+  }
 };

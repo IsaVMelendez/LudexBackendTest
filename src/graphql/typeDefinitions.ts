@@ -3,6 +3,10 @@ export const typeDefs = /* GraphQL */ `
     name: String!
   }
 
+  input CreateTodoInput {
+    title: String!
+  }
+
   type Something {
     id: ID!
     name: String!
@@ -10,9 +14,18 @@ export const typeDefs = /* GraphQL */ `
 
   type Mutation {
     createSomething(input: CreateSomethingInput!): Something!
+    createTodo(input: CreateTodoInput!): Todo!
   }
 
   type Query {
     hello: String
+  }
+
+  type Todo {
+    id: ID!
+    title: String!
+    completed: Boolean!
+    createdAt: String!
+    updatedAt: String!
   }
 `;
