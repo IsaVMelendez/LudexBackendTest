@@ -24,6 +24,10 @@ export type CreateTodoInput = {
   title: Scalars['String']['input'];
 };
 
+export type GetCompleteTodoInput = {
+  completed: Scalars['Boolean']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createSomething: Something;
@@ -48,8 +52,14 @@ export type MutationToggleTodoArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAllComplete: Array<Todo>;
   getAllTodos: Array<Todo>;
   hello?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type QueryGetAllCompleteArgs = {
+  input: GetCompleteTodoInput;
 };
 
 export type Something = {
@@ -145,6 +155,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
+  GetCompleteTodoInput: GetCompleteTodoInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -159,6 +170,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
+  GetCompleteTodoInput: GetCompleteTodoInput;
   ID: Scalars['ID']['output'];
   Mutation: {};
   Query: {};
@@ -175,6 +187,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getAllComplete?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryGetAllCompleteArgs, 'input'>>;
   getAllTodos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };

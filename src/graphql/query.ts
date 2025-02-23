@@ -20,5 +20,25 @@ export const Query: IQuery<Context> = {
       createdAt: todo.createdAt.toISOString(),
       updatedAt: todo.updatedAt.toISOString(),
     }));
+  },
+
+  /**
+   * Fetches all the incomplete/complete todos, based on query input
+   * 
+   * @param _
+   * @param __
+   * @param prisma - Prisma client
+   * @returns All our incomplete/complete todos
+   */
+  getAllComplete: async (_, { input }, { prisma }) => {
+    const todos = await prisma.todo.findMany({
+      where: {completed: input.completed}
+    });
+  
+    return todos.map(todo => ({
+      ...todo,
+      createdAt: todo.createdAt.toISOString(),
+      updatedAt: todo.updatedAt.toISOString(),
+    }));
   }
 };

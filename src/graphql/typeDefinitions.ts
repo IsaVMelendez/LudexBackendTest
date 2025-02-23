@@ -11,6 +11,10 @@ export const typeDefs = /* GraphQL */ `
     id: ID!
   }
 
+  input GetCompleteTodoInput {
+    completed: Boolean!
+  }
+
   type Something {
     id: ID!
     name: String!
@@ -25,6 +29,7 @@ export const typeDefs = /* GraphQL */ `
   type Query {
     hello: String
     getAllTodos: [Todo!]!
+    getAllComplete(input: GetCompleteTodoInput!): [Todo!]!
   }
 
   type Todo {
