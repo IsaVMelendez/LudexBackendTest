@@ -7,7 +7,7 @@ export const typeDefs = /* GraphQL */ `
     title: String!
   }
 
-  input CompleteTodoInput {
+  input ToggleTodoInput {
     id: ID!
   }
 
@@ -19,7 +19,7 @@ export const typeDefs = /* GraphQL */ `
   type Mutation {
     createSomething(input: CreateSomethingInput!): Something!
     createTodo(input: CreateTodoInput!): Todo!
-    completeTodo(input: CompleteTodoInput!): Todo!
+    toggleTodo(input: ToggleTodoInput!): Todo!
   }
 
   type Query {
