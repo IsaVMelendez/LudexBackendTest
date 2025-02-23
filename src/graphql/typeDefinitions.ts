@@ -15,6 +15,10 @@ export const typeDefs = /* GraphQL */ `
     completed: Boolean!
   }
 
+  input DeleteTodoInput {
+    id: ID!
+  }
+
   type Something {
     id: ID!
     name: String!
@@ -24,6 +28,7 @@ export const typeDefs = /* GraphQL */ `
     createSomething(input: CreateSomethingInput!): Something!
     createTodo(input: CreateTodoInput!): Todo!
     toggleTodo(input: ToggleTodoInput!): Todo!
+    deleteTodo(input: DeleteTodoInput!): String!
   }
 
   type Query {

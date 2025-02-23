@@ -24,6 +24,10 @@ export type CreateTodoInput = {
   title: Scalars['String']['input'];
 };
 
+export type DeleteTodoInput = {
+  id: Scalars['ID']['input'];
+};
+
 export type GetCompleteTodoInput = {
   completed: Scalars['Boolean']['input'];
 };
@@ -32,6 +36,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createSomething: Something;
   createTodo: Todo;
+  deleteTodo: Scalars['String']['output'];
   toggleTodo: Todo;
 };
 
@@ -43,6 +48,11 @@ export type MutationCreateSomethingArgs = {
 
 export type MutationCreateTodoArgs = {
   input: CreateTodoInput;
+};
+
+
+export type MutationDeleteTodoArgs = {
+  input: DeleteTodoInput;
 };
 
 
@@ -155,6 +165,7 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
+  DeleteTodoInput: DeleteTodoInput;
   GetCompleteTodoInput: GetCompleteTodoInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -170,6 +181,7 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   CreateSomethingInput: CreateSomethingInput;
   CreateTodoInput: CreateTodoInput;
+  DeleteTodoInput: DeleteTodoInput;
   GetCompleteTodoInput: GetCompleteTodoInput;
   ID: Scalars['ID']['output'];
   Mutation: {};
@@ -183,6 +195,7 @@ export type ResolversParentTypes = {
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createSomething?: Resolver<ResolversTypes['Something'], ParentType, ContextType, RequireFields<MutationCreateSomethingArgs, 'input'>>;
   createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'input'>>;
+  deleteTodo?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'input'>>;
   toggleTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationToggleTodoArgs, 'input'>>;
 };
 

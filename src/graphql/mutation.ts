@@ -1,5 +1,6 @@
 import { type MutationResolvers as IMutation } from "./generated/graphql";
 import { Context } from "./context";
+import { GraphQLError } from "graphql";
 
 export const Mutation: IMutation<Context> = {
   createSomething: async (_, { input }, { prisma }) => {
@@ -25,7 +26,7 @@ export const Mutation: IMutation<Context> = {
    */
   createTodo: async (_, { input }, { prisma }) => {
     if(input.title==""||!input.title){
-      throw new Error("Todo title cannot be empty or null.")
+      throw new GraphQLError("Todo title cannot be empty or null.")
     }
 
     const todo = await prisma.todo.create({
@@ -57,12 +58,11 @@ export const Mutation: IMutation<Context> = {
   toggleTodo: async (_, { input }, { prisma }) => {
     //Get the todo so we know its current completed state
     const myTodo = await prisma.todo.findUnique({
-      where: { id: input.id },
-      select: { completed: true },
+      where: { id: input.id }
     });
   
     if (!myTodo) {
-      throw new Error("Invalid ID, todo not found");
+      throw new GraphQLError("Invalid ID, todo not found");
     }
   
     //Run the update query to change it
@@ -79,5 +79,29 @@ export const Mutation: IMutation<Context> = {
       createdAt: updatedTodo.createdAt.toISOString(),
       updatedAt: updatedTodo.updatedAt.toISOString(),
     };
-  } 
+  },
+
+  /**
+   * Deletes a todo based on its id
+   * 
+   * @param _
+   * @param input - The id of the todo to delete
+   * @param prisma - Prisma client
+   * @returns A confirmation message
+   */
+  deleteTodo: async (_, { input }, { prisma }) => {
+    const myTodo = await prisma.todo.findUnique({
+      where: { id: input.id }
+    });
+
+    if(!myTodo){
+      throw new GraphQLError("Invalid id: Todo not found")
+    }
+
+    await prisma.todo.delete({
+      where: { id: input.id }
+    });
+
+    return `Todo named "${myTodo.title}" has been successfully deleted`;
+  },
 };
