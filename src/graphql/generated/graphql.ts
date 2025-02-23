@@ -48,6 +48,7 @@ export type MutationToggleTodoArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAllTodos: Array<Todo>;
   hello?: Maybe<Scalars['String']['output']>;
 };
 
@@ -174,6 +175,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  getAllTodos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
 };
 

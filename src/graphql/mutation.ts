@@ -79,5 +79,5 @@ export const Mutation: IMutation<Context> = {
       createdAt: updatedTodo.createdAt.toISOString(),
       updatedAt: updatedTodo.updatedAt.toISOString(),
     };
-  }  
+  } 
 };
