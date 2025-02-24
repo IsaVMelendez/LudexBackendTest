@@ -26,7 +26,7 @@ export const Mutation: IMutation<Context> = {
    */
   createTodo: async (_, { input }, { prisma }) => {
     if(input.title==""||!input.title){
-      throw new GraphQLError("Todo title cannot be empty or null.")
+      throw new GraphQLError("Todo title cannot be empty or null.");
     }
 
     const todo = await prisma.todo.create({

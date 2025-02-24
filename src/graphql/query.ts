@@ -1,5 +1,6 @@
 import { type QueryResolvers as IQuery } from "./generated/graphql";
 import { Context } from "./context";
+import { GraphQLError } from "graphql";
 
 export const Query: IQuery<Context> = {
   hello: () => "world",
@@ -26,7 +27,7 @@ export const Query: IQuery<Context> = {
    * Fetches all the incomplete/complete todos, based on query input
    * 
    * @param _
-   * @param __
+   * @param input - true/false, depending on whether we want complete or incomplete todos
    * @param prisma - Prisma client
    * @returns All our incomplete/complete todos
    */
@@ -40,5 +41,29 @@ export const Query: IQuery<Context> = {
       createdAt: todo.createdAt.toISOString(),
       updatedAt: todo.updatedAt.toISOString(),
     }));
-  }
+  },
+
+  /**
+   * Fetches a todo by id
+   * 
+   * @param _
+   * @param input - The id of the todo we want to get
+   * @param prisma - Prisma client
+   * @returns A todo with the corresponding ID
+   */
+  getTodo: async (_, { input }, { prisma }) => {
+    const todo = await prisma.todo.findUnique({
+        where: { id: input.id }
+    });
+
+    if (!todo) {
+        throw new GraphQLError("Todo not found");
+    }
+
+    return {
+        ...todo,
+        createdAt: todo.createdAt.toISOString(),
+        updatedAt: todo.updatedAt.toISOString(),
+    };
+}
 };
