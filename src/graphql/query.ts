@@ -20,6 +20,7 @@ export const Query: IQuery<Context> = {
       ...todo,
       createdAt: todo.createdAt.toISOString(),
       updatedAt: todo.updatedAt.toISOString(),
+      dueDate: todo.dueDate ? todo.dueDate.toISOString() : null
     }));
   },
 
@@ -40,6 +41,7 @@ export const Query: IQuery<Context> = {
       ...todo,
       createdAt: todo.createdAt.toISOString(),
       updatedAt: todo.updatedAt.toISOString(),
+      dueDate: todo.dueDate ? todo.dueDate.toISOString() : null,
     }));
   },
 
@@ -64,6 +66,7 @@ export const Query: IQuery<Context> = {
         ...todo,
         createdAt: todo.createdAt.toISOString(),
         updatedAt: todo.updatedAt.toISOString(),
+        dueDate: todo.dueDate ? todo.dueDate.toISOString() : null
     };
 }
 };

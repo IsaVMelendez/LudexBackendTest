@@ -5,6 +5,7 @@ export const typeDefs = /* GraphQL */ `
 
   input CreateTodoInput {
     title: String!
+    dueDate: String
   }
 
   input ToggleTodoInput {
@@ -54,5 +55,6 @@ export const typeDefs = /* GraphQL */ `
     completed: Boolean!
     createdAt: String!
     updatedAt: String!
+    dueDate: String
   }
 `;

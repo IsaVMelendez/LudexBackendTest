@@ -1,7 +1,20 @@
 import { type MutationResolvers as IMutation } from "./generated/graphql";
 import { Context } from "./context";
 import { GraphQLError } from "graphql";
-import { title } from "node:process";
+
+function parseDateInput(dateStr: string) {
+  const regexPattern = /^\d{2}-\d{2}-\d{4}$/;
+  if (!regexPattern.test(dateStr)) {
+    throw new Error("Invalid date format; should be DD-MM-YYYY.");
+  }
+
+  const [day, month, year] = dateStr.split('-');
+
+  //Put the user input in ISO format
+  const date = new Date(`${year}-${month}-${day}T00:00:00Z`);
+
+  return date.toISOString();
+}
 
 export const Mutation: IMutation<Context> = {
   createSomething: async (_, { input }, { prisma }) => {
@@ -30,12 +43,22 @@ export const Mutation: IMutation<Context> = {
       throw new GraphQLError("Todo title cannot be empty or null.");
     }
 
+    let dueDate = null;
+    if (input.dueDate) {
+      try {
+        dueDate = parseDateInput(input.dueDate);
+      } catch (error) {
+        throw new GraphQLError(`Invalid dueDate format : ${error}`);
+      }
+    }
+
     const todo = await prisma.todo.create({
       data: {
         title: input.title,
         completed: false,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
+        dueDate: dueDate
       },
     });
 
@@ -44,6 +67,7 @@ export const Mutation: IMutation<Context> = {
       ...todo,
       createdAt: todo.createdAt.toISOString(),
       updatedAt: todo.updatedAt.toISOString(),
+      dueDate: todo.dueDate ? todo.dueDate.toISOString() : null,
     };
   },
 
@@ -79,6 +103,7 @@ export const Mutation: IMutation<Context> = {
       ...updatedTodo,
       createdAt: updatedTodo.createdAt.toISOString(),
       updatedAt: updatedTodo.updatedAt.toISOString(),
+      dueDate: updatedTodo.dueDate ? updatedTodo.dueDate.toISOString() : null,
     };
   },
 
@@ -113,6 +138,7 @@ export const Mutation: IMutation<Context> = {
       ...updatedTodo,
       createdAt: updatedTodo.createdAt.toISOString(),
       updatedAt: updatedTodo.updatedAt.toISOString(),
+      dueDate: updatedTodo.dueDate ? updatedTodo.dueDate.toISOString() : null
     };
   },
 
