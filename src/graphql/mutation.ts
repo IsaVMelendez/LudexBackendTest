@@ -1,6 +1,7 @@
 import { type MutationResolvers as IMutation } from "./generated/graphql";
 import { Context } from "./context";
 import { GraphQLError } from "graphql";
+import { title } from "node:process";
 
 export const Mutation: IMutation<Context> = {
   createSomething: async (_, { input }, { prisma }) => {
@@ -70,6 +71,40 @@ export const Mutation: IMutation<Context> = {
       where: { id: input.id },
       data: {
         completed: !myTodo.completed,
+        updatedAt: new Date().toISOString(),
+      },
+    });
+  
+    return {
+      ...updatedTodo,
+      createdAt: updatedTodo.createdAt.toISOString(),
+      updatedAt: updatedTodo.updatedAt.toISOString(),
+    };
+  },
+
+  /**
+   * Updates a todo item's title
+   * 
+   * @param _
+   * @param input - The input data, containing the id of the item as well as the new title
+   * @param prisma - Prisma client
+   * @returns The todo entity, now updated
+   */
+  updateTodoTitle: async (_, { input }, { prisma }) => {
+    const myTodo = await prisma.todo.findUnique({
+      where: { id: input.id }
+    });
+  
+    if (!myTodo) {
+      throw new GraphQLError("Invalid ID, todo not found");
+    } else if(input.title==""||!input.title){
+      throw new GraphQLError("Todo title cannot be empty or null.");
+    }
+
+    const updatedTodo = await prisma.todo.update({
+      where: { id: input.id },
+      data: {
+        title: input.title,
         updatedAt: new Date().toISOString(),
       },
     });
