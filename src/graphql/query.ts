@@ -46,6 +46,33 @@ export const Query: IQuery<Context> = {
   },
 
   /**
+   * Fetches all the todos that are overdue
+   * 
+   * @param _
+   * @param __
+   * @param prisma - Prisma client
+   * @returns All our overdue todos
+   */
+  getAllOverdue: async (_, __, { prisma }) => {
+    //We check if the date stored is less than the current date
+    const todos = await prisma.todo.findMany({
+      where: {
+        completed: false,
+        dueDate: {
+          lt: new Date(),
+        },
+      },
+    });
+
+    return todos.map(todo => ({
+      ...todo,
+      createdAt: todo.createdAt.toISOString(),
+      updatedAt: todo.updatedAt.toISOString(),
+      dueDate: todo.dueDate ? todo.dueDate.toISOString() : null,
+    }));
+  },
+
+  /**
    * Fetches a todo by id
    * 
    * @param _

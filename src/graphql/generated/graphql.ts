@@ -74,6 +74,7 @@ export type MutationUpdateTodoTitleArgs = {
 export type Query = {
   __typename?: 'Query';
   getAllComplete: Array<Todo>;
+  getAllOverdue: Array<Todo>;
   getAllTodos: Array<Todo>;
   getTodo: Todo;
   hello?: Maybe<Scalars['String']['output']>;
@@ -229,6 +230,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAllComplete?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryGetAllCompleteArgs, 'input'>>;
+  getAllOverdue?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   getAllTodos?: Resolver<Array<ResolversTypes['Todo']>, ParentType, ContextType>;
   getTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<QueryGetTodoArgs, 'input'>>;
   hello?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

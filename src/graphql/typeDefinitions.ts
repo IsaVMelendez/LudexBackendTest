@@ -47,6 +47,7 @@ export const typeDefs = /* GraphQL */ `
     getAllTodos: [Todo!]!
     getAllComplete(input: GetCompleteTodoInput!): [Todo!]!
     getTodo(input: GetTodoInput!): Todo!
+    getAllOverdue: [Todo!]!
   }
 
   type Todo {
